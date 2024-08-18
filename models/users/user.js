@@ -5,20 +5,12 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
   const usertbls = sequelize.define(
     "usertbls",
     {
-      User_ID: {
+      Id: {
         type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
         allowNull: true,
       },
-      // User_Type: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
-      // User_FirstName: {
-      //   type: DataTypes.STRING(30),
-      //   allowNull: true,
-      // },
       User_Name: {
         type: DataTypes.STRING(30),
         allowNull: true,

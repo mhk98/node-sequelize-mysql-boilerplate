@@ -15,11 +15,9 @@ db.sequelize
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 db.user = require("../models/users/user")(db.sequelize, DataTypes);
+db.task = require("../models/tasks/tasks")(db.sequelize, DataTypes);
+db.product = require("../models/products/products")(db.sequelize, DataTypes);
 
-// db.Course.hasMany(db.Intake, { foreignkey: "Course_Id" });
-// db.Intake.belongsTo(db.Course, { foreignkey: "Course_Id" });
 
-// db.Teacher.hasMany(db.Intake, { foreignkey: "Teacher_Id" });
-// db.Intake.belongsTo(db.Teacher, { foreignkey: "Teacher_Id" });
 
 module.exports = db;

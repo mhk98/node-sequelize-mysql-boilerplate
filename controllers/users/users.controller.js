@@ -2,7 +2,6 @@
 const db = require("../../models");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../../utils/jwt_token");
-const { ErrorLogger } = require("../../utils/logger");
 const User = db.user;
 
 // console.log(User)
@@ -30,7 +29,7 @@ exports.signup = async (req, res) => {
 
     // console.log('UserId', user.User_ID)
   } catch (error) {
-    ErrorLogger.error(req.originalUrl + " " + error.message);
+   
 
     res.status(500).json({
       status: "fail",
@@ -153,6 +152,63 @@ exports.login = async (req, res) => {
     res.status(500).json({
       status: "fail",
       message: "Username or password is not curret",
+      error: error.message,
+    });
+  }
+};
+
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await User.destroy({
+      where: { Id: id },
+    });
+
+    if (!result) {
+      return res.status(401).send({
+        status: "fail",
+        message: "No result found",
+      });
+    }
+    res.status(200).send({
+      status: "Success",
+      message: "Successfully delete user",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const result = await User.update(data, {
+      where: { Id: id },
+    });
+
+    if (!result) {
+      return res.status(401).send({
+        status: "fail",
+        message: "No result found",
+      });
+    }
+    res.status(200).send({
+      status: "Success",
+      message: "Successfully update your user",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Something went wrong",
       error: error.message,
     });
   }

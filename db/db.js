@@ -18,7 +18,7 @@ const sequelize = new Sequelize(
     pool: { max: 5, min: 0, idle: 10000 },
     logging: false,
     timezone: "+06:00",
-    port: 3307,
+    port: 3306,
     // port: 3306
   }
 );
