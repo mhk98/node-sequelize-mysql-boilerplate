@@ -3,7 +3,20 @@ const Product = db.product;
 
 exports.createProduct = async (req, res) => {
   try {
-    const result = await Product.create(req.body);
+
+    const { title, description, category, price } = req.body;
+
+    const data = {
+      title,
+      description,
+      category,
+      price,
+      image: req.file.path,
+    };
+
+    console.log(data);
+
+    const result = await Product.create(data);
 
     res.status(200).send({
       status: "Success",
@@ -96,7 +109,19 @@ exports.deleteProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = req.body;
+    const { title, description, price, category} = req.body
+
+    const data = {
+      title: title === "" ? undefined : title,
+      description: description === "" ? undefined : description,
+      category: category === "" ? undefined : category,
+      price: price === "" ? undefined : price,
+      image: req.file === undefined ? undefined : req.file.path,
+      
+    };
+    console.log('product data', data);
+    console.log(id);
+
     const result = await Product.update(data, {
       where: { Id: id },
     });

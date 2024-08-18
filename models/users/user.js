@@ -11,102 +11,55 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
         autoIncrement: true,
         allowNull: true,
       },
-      User_Name: {
+
+      Name: {
         type: DataTypes.STRING(30),
-        allowNull: true,
+        allowNull: false,
       },
-      User_Email: {
+
+      Email: {
         type: DataTypes.STRING(64),
-        allowNull: true,
-        // validate: [validator.isEmail, "Provide a valid Email"],
+        allowNull: false,
         unique: true,
-        required: [true, "Email address is required"],
+        // required: [true, "Email address is required"],
       },
-      // PIN: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
-      // IDcard: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
-      // Passportno: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
-      pass_word: {
+      Password: {
+        type: DataTypes.STRING(64),
+        allowNull: false,
+        unique: true,
+      },
+      image: {
         type: DataTypes.STRING,
-        allowNull: true,
-        required: [true, "Password is required"],
-        // validate: {
-        //   validator: (value) =>
-        //     validator.isStrongPassword(value, {
-        //       minLength: 6,
-        //       minLowercase: 3,
-        //       minNumbers: 1,
-        //       minUppercase: 1,
-        //       minnSymbols: 1,
-        //     }),
-        //   message: "Password {VALUE} is not strong enough",
-        // },
+        allowNull: false,
       },
-      // Mobile_No: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
-      // agent: {
-      //   type: DataTypes.STRING,
-      //   allowNull: true,
-      // },
+
       role: {
         type: DataTypes.STRING,
         defaultValue: "user",
-        enum: ["user", "admin", "super_admin"],
+        enum: ["user", "admin", "super admin"],
       },
-
-      // status: {
-      //   type: DataTypes.ENUM("pending", "active", "disabled"),
-      //   defaultValue: "pending",
-      // },
     },
-    //   {
-    //     hooks: {
-    //       beforeCreate: async (user) => {
-    //         if (user.password) {
-    //           const salt = await bcrypt.genSaltSync(10, 'a');
-    //           user.password = bcrypt.hashSync(user.password, salt);
-    //         }
-    //       },
-    //     },
-    //   },
-    // );
-    // usertbls.prototype.validPassword = async (password, hash) => {
-    //   return await bcrypt.compareSync(password, hash);
-    // };
 
-    // usertbls.prototype.getHashPass = async (password) => {
-    //   const salt = await bcrypt.genSaltSync(10, 'a');
-    //   const hashed = bcrypt.hashSync(password, salt);
-    //   return hashed;
-    // };
-
+    // Define hooks to perform actions before creating a user
     {
       hooks: {
         beforeCreate: async (user) => {
-          if (user.pass_word) {
+          if (user.Password) {
             const salt = await bcrypt.genSaltSync(10);
-            user.pass_word = bcrypt.hashSync(user.pass_word, salt);
+            user.Password = bcrypt.hashSync(user.Password, salt);
           }
         },
       },
     }
   );
-  usertbls.prototype.validPassword = async (pass_word, hash) => {
-    return await bcrypt.compareSync(pass_word, hash);
+
+  // Define custom methods for validating and hashing passwords
+  usertbls.prototype.validPassword = async (Password, hash) => {
+    return await bcrypt.compareSync(Password, hash);
   };
-  usertbls.prototype.getHashPass = async (pass_word) => {
+  usertbls.prototype.getHashPass = async (Password) => {
     const salt = await bcrypt.genSaltSync(10);
-    const hashed = bcrypt.hashSync(pass_word, salt);
+    const hashed = bcrypt.hashSync(Password, salt);
     return hashed;
   };
   return usertbls;

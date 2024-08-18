@@ -1,10 +1,12 @@
 const router = require("express").Router();
 const product = require("../../controllers/products/products.controller");
+const auth = require("../../middlewares/auth");
+const { singleUpload } = require("../../middlewares/upload");
 
 
-router.post("/create", product.createProduct);
+router.post("/create", singleUpload, product.createProduct);
 router.get("/", product.getAllProduct);
-router.delete("/:id", product.deleteProduct);
+router.delete("/:id", auth('admin'), product.deleteProduct);
 router.patch("/:id", product.updateProduct);
 
 

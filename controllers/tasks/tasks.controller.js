@@ -96,7 +96,18 @@ exports.deleteTask = async (req, res) => {
 exports.updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = req.body;
+    const { title, description, status } = req.body;
+
+
+    const data = {
+      title: title === "" ? undefined : title,
+      description: description === "" ? undefined : description,
+      status: status === "" ? undefined : status,
+      
+      
+    };
+
+
     const result = await Task.update(data, {
       where: { Id: id },
     });

@@ -17,8 +17,7 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
 
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      
+      allowNull: false, 
     },
 
     status: {
